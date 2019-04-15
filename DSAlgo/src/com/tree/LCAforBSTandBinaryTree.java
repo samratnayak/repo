@@ -8,6 +8,10 @@ public class LCAforBSTandBinaryTree {
 		Node(int data){
 			this.data = data;
 		}
+		@Override
+		public String toString() {
+			return "Node [data=" + data + "]";
+		}
 	}
 	
 	public static void main(String[] args) {
@@ -21,7 +25,7 @@ public class LCAforBSTandBinaryTree {
 		System.out.println("resut BST "+ ans2.data);
 	}
 
-	private static Node createBST() {
+	public static Node createBST() {
 
 		Node root = new Node(5);
 		root.left = new Node(3);
@@ -39,7 +43,7 @@ public class LCAforBSTandBinaryTree {
 	
 	}
 
-	private static Node createBinaryTree() {
+	public static Node createBinaryTree() {
 		Node root = new Node(1);
 		root.left = new Node(2);
 		root.right = new Node(3);
