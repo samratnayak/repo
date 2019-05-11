@@ -38,7 +38,7 @@ public class A {
 			System.out.println(i);
 		}
 	*/
-	String s1 = "E-mail";
+	String s1 = new String("E-mail");
 	StringBuffer s2 = new StringBuffer();
 	s2.append("E-mail");
 	String s3 = new String("mail");
