@@ -42,8 +42,22 @@ public class CompletableFutureUsage {
 		System.out.println("Time taken run ansync " + (timeRunAsync - startTime) + " and apply, accept, run "
 				+ (timeAcceptAndapply - timeRunAsync));
 		// flatten result using then compose
+		useThenCompose();
+		
 		// combine 2 independent futures and do something with result
 		// https://www.callicoder.com/java-8-completablefuture-tutorial/
+	}
+
+	private static void useThenCompose() {
+		CompletableFuture<Double> findHeight = CompletableFuture.supplyAsync(() -> {
+			sleep(1000);
+			return Double.valueOf("171");
+		});
+		CompletableFuture<Double> findWeight = CompletableFuture.supplyAsync(() -> {
+			sleep(1000);
+			return Double.valueOf("70");
+		});
+		findHeight.thenApply(d -> d/2);
 	}
 
 	private static void sleep(long milli) {
