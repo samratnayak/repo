@@ -48,18 +48,30 @@ public class CompletableFutureUsage {
 		// https://www.callicoder.com/java-8-completablefuture-tutorial/
 	}
 
-	private static void useThenCompose() {
-		CompletableFuture<Double> findHeight = CompletableFuture.supplyAsync(() -> {
+	private static void useThenCompose() throws InterruptedException, ExecutionException {
+		CompletableFuture<String> findPerson = CompletableFuture.supplyAsync(() -> {
 			sleep(1000);
-			return Double.valueOf("171");
+			return String.valueOf("Jon");
 		});
-		CompletableFuture<Double> findWeight = CompletableFuture.supplyAsync(() -> {
-			sleep(1000);
-			return Double.valueOf("70");
-		});
-		findHeight.thenApply(d -> d/2);
+		// then apply does not flatten
+		CompletableFuture<CompletableFuture<Double>> weightUsingApply =
+		findPerson.thenApply(name -> findWeight(name));
+		System.out.println("weight apply " + weightUsingApply.get().get());
+		
+		// flattened res using thencompose
+		CompletableFuture<Double> weightUsingCompose =
+				findPerson.thenCompose(name -> findWeight(name));
+		System.out.println("weight compose " + weightUsingCompose.get());
 	}
 
+	private static CompletableFuture<Double> findWeight(String name){
+		return CompletableFuture.supplyAsync(() -> {
+				sleep(1000);
+				double w = name.equals("Jon") ? Double.valueOf("70") : 75;
+				return w;
+			});
+	}
+	
 	private static void sleep(long milli) {
 		try {
 			Thread.sleep(milli);
