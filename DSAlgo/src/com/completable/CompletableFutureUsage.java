@@ -45,7 +45,25 @@ public class CompletableFutureUsage {
 		useThenCompose();
 		
 		// combine 2 independent futures and do something with result
+		useThenCombine();
+		
 		// https://www.callicoder.com/java-8-completablefuture-tutorial/
+	}
+
+	private static void useThenCombine() throws InterruptedException, ExecutionException {
+		CompletableFuture<Double> wInkgFuture = CompletableFuture.supplyAsync(() -> {
+			sleep(1000);
+			return 70d;
+		});
+		
+		CompletableFuture<Double> hInCmFuture = CompletableFuture.supplyAsync(() -> {
+			sleep(1000);
+			return 170d;
+		});
+		
+		CompletableFuture<Double> bmi = hInCmFuture.thenCombineAsync(wInkgFuture, (h, w) -> (h * 10)/w);
+		System.out.println("BMI using then combine "+ bmi.get());
+		
 	}
 
 	private static void useThenCompose() throws InterruptedException, ExecutionException {
