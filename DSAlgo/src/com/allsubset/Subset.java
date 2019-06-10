@@ -3,7 +3,7 @@ package com.allsubset;
 public class Subset {
 
 	public static void main(String[] args) {
-		int arr[] = {3,5, 8};
+		int arr[] = {3,5, 8, 7};
 		int i = 0;
 	 while(++i  < arr.length)
 			printAllSubsets(arr, 0, new int[i], 0, i);
