@@ -7,46 +7,34 @@ public class MinimumEggDrops {
 
 	public static Map<String, Integer> table = new HashMap<String, Integer>();
 	public static void main(String[] args) {
-		int eggs = 6, floors = 3, curr = 3;
-		int minDrops = Integer.MAX_VALUE;
-		while(curr > 1 ) {
-			int tempDrops = findMinDropsInWorstCase(eggs, floors, curr--);
-			minDrops = tempDrops < minDrops ? tempDrops : minDrops;
-		}
-		System.out.println(minDrops);
+		int floors = 7, eggs = 3;
+		int minDrops = findMinDropsInWorstCase(eggs, floors);
+		System.out.println("final ans "+minDrops);
 	}
 
-	private static int findMinDropsInWorstCase(int eggs, int floors, int curr) {
+	private static int findMinDropsInWorstCase(int eggs, int floors) {
 		if (eggs == 1) {
 			return floors;
 		}
-		if (floors == 1) {
+		if (floors <= 1) {
 			return 1;
 		}
-
-		// Egg  breaks
-		int case1Count = curr - 1 == 0 ? 1 : Integer.MAX_VALUE;
-		for (int i = curr - 1; i >= 1; i--) {
-			if (!presentInTable(eggs -1 , floors)) {
-				int temp = findMinDropsInWorstCase(eggs -1, curr - 1, i);
-				case1Count = temp < case1Count ? temp : case1Count;
-			}
-			else {
-				//case1Count = map.getVal(floors +"-" +eggs);
-			}
+		if(table.containsKey(eggs+"-"+floors)) {
+			int tries = table.get(eggs+"-"+floors);
+			System.out.println("found floors "+floors+" eggs "+eggs+" ans "+tries);
+			return tries;
 		}
-		//Egg doesn't break
-		int case2Count = curr + 1 > floors ? 1: Integer.MAX_VALUE;
-		for (int i = curr + 1; i <= floors; i++) {
-			int temp = findMinDropsInWorstCase(eggs, floors - curr, i - curr );
-			case2Count = temp < case2Count ? temp : case2Count;
+		int minTries = Integer.MAX_VALUE;
+		for (int curr = 1; curr <= floors; curr++) {
+			// Egg breaks
+			int tries1 = findMinDropsInWorstCase(eggs - 1, floors - curr);
+			// Egg doesn't break
+			int tries2 = findMinDropsInWorstCase(eggs , curr - 1);
+			int worstCaseTries = Math.max(tries1, tries2);
+			if(worstCaseTries < minTries)
+				minTries = worstCaseTries;
 		}
-		// table.put(key, value)
-		return case1Count > case2Count ? case1Count + 1 : case2Count + 1;
+		table.put(eggs+"-"+floors, minTries + 1);
+		return minTries + 1;
 	}
-
-	private static boolean presentInTable(int eggs, int floors) {
-		return false;
-	}
-
 }
