@@ -13,9 +13,9 @@ public class LargestIncreasingSubsequence {
 		if(n <= 1)
 			return 1;
 		int maxLen = Integer.MIN_VALUE;
-		for(int i = 0; i < n; i++) {
-			int lenLocal = -1;
-			if(arr[i] > arr[n]) {
+		for(int i = 1; i < n; i++) {
+			int lenLocal = 1;
+			if(arr[i-1] > arr[n-1]) {
 				lenLocal = 1 + findLIS(arr, i-1);
 			} else {
 				
