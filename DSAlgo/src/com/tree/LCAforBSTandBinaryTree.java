@@ -56,6 +56,10 @@ public class LCAforBSTandBinaryTree {
 		
 		root.left.right.left = new Node(9);
 		root.left.right.right = new Node(10);
+		
+		root.left.left.left = new Node(15);
+		
+		root.left.left.right = new Node(16);
 		return root;
 	}
 	
