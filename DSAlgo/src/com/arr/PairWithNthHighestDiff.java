@@ -2,7 +2,9 @@ package com.arr;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 import java.util.PriorityQueue;
+import java.util.stream.Collectors;
 
 
 public class PairWithNthHighestDiff {
@@ -56,17 +58,25 @@ public class PairWithNthHighestDiff {
 			pqKsmallFinal.add(pqKsmall.poll());
 		}
 		System.out.println("pqKsmall "+ pqKsmall+" pk small final "+ pqKsmallFinal +" pk large "+ pqKlarge);
-		int highestDiff = Integer.MIN_VALUE;
+		List<Integer> arr1 = pqKsmallFinal.stream().collect(Collectors.toList());
+		List<Integer> arr2 = pqKlarge.stream().collect(Collectors.toList());
+		PriorityQueue<Integer> ansPq = new PriorityQueue<>();
+		System.out.println("arr1 "+ arr1+" arr2 "+ arr2);
 		for(int i = 0; i < k; i++) {
-			int currSmall = pqKsmallFinal.poll();
-			int currHigh = pqKlarge.poll();
-			System.out.println("currSmall "+currSmall+" currHigh "+currHigh);
-			System.out.println("pqKsmall "+ pqKsmall+" pk small final "+ pqKsmallFinal +" pk large "+ pqKlarge);
-			if(Math.abs(currHigh - currSmall) > highestDiff) {
-				highestDiff = Math.abs(currHigh - currSmall);
+			for(int j = 0; j < k; j++) {
+				int diff  = Math.abs(arr1.get(i) - arr2.get(j));
+				if(ansPq.size() < k) {
+					ansPq.add(diff);
+				} else {
+					int currLow = ansPq.peek();
+					if(diff > currLow) {
+						ansPq.remove();
+						ansPq.add(diff);
+					}
+				}
 			}
 		}
-		return highestDiff;
+		return ansPq.peek();
 	}
 
 }
