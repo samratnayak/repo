@@ -70,7 +70,7 @@ class Worker implements Runnable {
 public class WorkerThreadPool {
 	//https://stackoverflow.com/questions/31123457/internal-working-of-newfixedthreadpool
     public static void main(String[] args) {
-        ExecutorService executor = Executors.newFixedThreadPool(1);//two threads, try setting by 1 to observe time
+        ExecutorService executor = Executors.newFixedThreadPool(3);//two threads, try setting by 1 to observe time
         System.out.println("Starting ...");
         long start = System.currentTimeMillis();
         Worker worker = new Worker();
